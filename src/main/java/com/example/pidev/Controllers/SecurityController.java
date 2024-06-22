@@ -19,9 +19,6 @@ public class SecurityController {
     @PostMapping({"/authenticate"})
     public JwtResponse createJwtToken(@RequestBody JwtRequest jwtRequest) throws Exception {
         JwtResponse response = jwtService.createJwtToken(jwtRequest);
-        // Get the user ID from the JWT token
-        // Create a new JwtResponse object with the user ID and token
-        // Return the JwtResponse object as the response body
         return response;    }
 }
 

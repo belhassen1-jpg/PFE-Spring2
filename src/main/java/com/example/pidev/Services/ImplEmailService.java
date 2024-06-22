@@ -936,7 +936,7 @@ public class ImplEmailService implements IEmailUserService {
                 "        \n" +
                 " <div class=\"v-text-align\" style=\"color: #34495e; line-height: 140%; text-align: left; word-wrap: break-word;\">\n" +
                 "    <p style=\"font-size: 12px; line-height: 140%;\">\n" +
-                "        <a href=\"http://localhost:8090/GRH/verify/{{user.getVerificationToken()}}\" target=\"_blank\" style=\"color: #3498db; text-decoration: underline;\">\n" +
+                "        <a href=\"http://localhost:8090/GRH/verify/"+user.getVerificationToken()+"\" target=\"_blank\" style=\"color: #3498db; text-decoration: underline;\">\n" +
                 "            http://localhost:8090/GRH/verify/"+user.getVerificationToken()+
                 "        </a>\n" +
                 "    </p>\n" +

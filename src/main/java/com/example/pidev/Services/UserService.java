@@ -46,17 +46,6 @@ public class UserService implements IUserService {
         return userRepository.findAll();
     }
 
-
-    @Override
-    public List<User> getLastFiveUsers() {
-        return userRepository.findTop5ByOrderByCreatedATDesc();
-    }
-    @Override
-    public User addUser(User user) {
-
-        return userRepository.save(user);
-    }
-
     @Override
     public User updateUser(User user) {
 
@@ -134,12 +123,10 @@ public class UserService implements IUserService {
         return user;
     }
 
+    //cryptage
     public String getEncodedPassword(String password) {
         return passwordEncoder.encode(password);
     }
-
-
-
 
 
     public User ResetPasswordSms(String code, String newPassword, String confirmPassword) {

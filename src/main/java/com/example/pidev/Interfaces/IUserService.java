@@ -8,9 +8,9 @@ public interface IUserService {
 
     List<User> retrieveAllUsers();
 
-    List<User> getLastFiveUsers();
 
-    User addUser(User user);
+
+
 
     User updateUser (User user);
 

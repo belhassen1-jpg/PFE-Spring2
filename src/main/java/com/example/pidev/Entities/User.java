@@ -50,7 +50,7 @@ public class User implements Serializable  {
     private Integer Age;
     private  LocalDateTime createdAT;
 
-    private String preferencesCategory; // Renamed from preferredCategories
+    private String preferencesCategory;
     private String preferencesLocation;
 
     @Column(name = "user_job")

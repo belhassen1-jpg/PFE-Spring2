@@ -19,7 +19,7 @@ public class VerificationTokenService {
     @Autowired
     private VerificationTokenRepository verificationTokenRepository;
 
-
+// constructeur
     public VerificationTokenService(VerificationTokenRepository verificationTokenRepository) {
         this.verificationTokenRepository = verificationTokenRepository;
     }

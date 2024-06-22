@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.persistence.EntityNotFoundException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -51,10 +53,7 @@ public class UserController {
         return user;
     }
 
-    @GetMapping("/lastFive")
-    public List<User> getLastFiveUsers() {
-        return userService.getLastFiveUsers();
-    }
+
 
 
     /////// Sign-UP ///////////
@@ -80,20 +79,22 @@ public class UserController {
     }
 
 
-    @PutMapping("/verify/{verificationToken}")
-    public ResponseEntity<User> activateAccount(@PathVariable String verificationToken) throws javax.mail.MessagingException {
+    @GetMapping("/verify/{verificationToken}")
+    public ResponseEntity<?> activateAccount(@PathVariable String verificationToken) throws javax.mail.MessagingException {
         User user = userService.VerifyUser(verificationToken);
         if (user != null) {
             String to = user.getEmail();
-            String subject = "Account Created";
+            String subject = "Compte activé";
             try {
                 emailService.sendEmail(to, subject);
             } catch (MessagingException e) {
                 throw new RuntimeException(e);
             }
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            // Créer un objet de réponse personnalisé
+            return new ResponseEntity<>("Votre compte a été vérifié avec succès. Veuillez retourner à la page d'accueil et vous connecter.", HttpStatus.OK);
+
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("La vérification de votre compte a échoué ou le token n'est plus valide.", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -103,7 +104,7 @@ public class UserController {
     @PostMapping("/SendSMS/{Phone}")
     public User SmsSender(@PathVariable Long Phone) {
         User NewUser=userService.retrieveUserByPhone(Phone);
-        UserCode userCode = codeService.createVerificationCode(NewUser); // création du jeton de vérification
+        UserCode userCode = codeService.createVerificationCode(NewUser);
         codeService.saveVerificationCode(userCode);
         NewUser= userService.updateUser(NewUser);
 
