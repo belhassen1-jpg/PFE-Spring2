@@ -36,6 +36,11 @@ public class PlanningService {
         return planningRepository.save(planning);
     }
 
+    public List<Planning> findPlanningsByEmployeeId(Long employeeId) {
+        return planningRepository.findByEmployeeId(employeeId);
+    }
+
+
     public FeuilleTemps creerEtAssocierFeuilleTemps(Long planningId, Long userId, FeuilleTemps feuilleTemps) {
         Planning planning = planningRepository.findById(planningId)
                 .orElseThrow(() -> new EntityNotFoundException("Planning not found with id: " + planningId));

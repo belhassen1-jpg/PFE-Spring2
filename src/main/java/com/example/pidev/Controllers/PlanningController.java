@@ -32,6 +32,15 @@ public class PlanningController {
         return new ResponseEntity<>(createdPlanning, HttpStatus.CREATED);
     }
 
+    @GetMapping("/employee/{employeeId}/plannings")
+    public ResponseEntity<List<Planning>> getEmployeePlannings(@PathVariable Long employeeId) {
+        List<Planning> plannings = planningService.findPlanningsByEmployeeId(employeeId);
+        if (plannings.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(plannings);
+    }
+
 
     @PostMapping("/feuilleTemps/planning/{planningId}/employe/{userId}")
     public ResponseEntity<FeuilleTemps> creerEtAssocierFeuilleTemps(

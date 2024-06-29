@@ -41,15 +41,25 @@ public class ServicePaie {
                 .orElseThrow(() -> new RuntimeException("Employé non trouvé avec l'id : " + employeId));
 
 
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.DAY_OF_MONTH));
-        Date dateDebut = cal.getTime();
 
-        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
-        Date dateFin = cal.getTime();
+        // Ensure that we pick the correct time period based on the employee's assigned planning.
+        List<Planning> employeePlannings = planningService.findPlanningsByEmployeeId(employeId);
+        if (employeePlannings.isEmpty()) {
+            throw new RuntimeException("No planning found for the employee with ID: " + employeId);
+        }
+
+        // Example to handle multiple plannings, you might need to adjust based on how you want to handle overlaps.
+        Planning relevantPlanning = employeePlannings.get(0); // This is simplified logic.
+
+        Date dateDebut = relevantPlanning.getDateDebutValidite();
+        Date dateFin = relevantPlanning.getDateFinValidite();
+
         List<FeuilleTemps> feuillesDeTemps = planningService.obtenirFeuillesDeTempsPourPeriode(employeId, dateDebut, dateFin);
+        if (feuillesDeTemps.isEmpty()) {
+            throw new RuntimeException("Aucune feuille de temps trouvée pour l'employé avec l'ID " + employeId + " pour la période spécifiée.");
+        }
 
-
+        // Calculate total worked hours and overtime
         BigDecimal totalHeuresTravaillees = BigDecimal.ZERO;
         BigDecimal totalHeuresSup = BigDecimal.ZERO;
         BigDecimal seuilHeuresNormales = BigDecimal.valueOf(4);

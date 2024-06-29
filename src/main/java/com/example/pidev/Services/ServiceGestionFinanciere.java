@@ -51,7 +51,6 @@ public class ServiceGestionFinanciere {
         depense.setEmploye(employe);
         Depense savedDepense = depenseRepository.save(depense);
 
-        // Mettre à jour l'objectif d'épargne si la dépense est dans la période de l'objectif
         updateObjectifEpargneForEmploye(employe.getEmpId(), depense);
 
         return savedDepense;
